@@ -1,0 +1,10 @@
+{
+  "name": "vercel-expense-tracker",
+  "version": "1.0.0",
+  "description": "Serverless Expense Tracker API for Vercel",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {}
+}
