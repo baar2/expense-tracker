@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expense Tracker</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    #expenses { margin-top: 20px; }
+    .item { padding: 10px; border-bottom: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+<h1>Expense Tracker</h1>
+
+<h3>Add Expense</h3>
+<input id="amount" type="number" placeholder="Amount" />  
+<input id="description" type="text" placeholder="Description" />  
+<button onclick="addExpense()">Add</button>
+
+<h3>Expenses</h3>
+<div id="expenses">Loading...</div>
+
+<script>
+async function loadExpenses() {
+  const res = await fetch("/api/expenses");
+  const data = await res.json();
+
+  const container = document.getElementById("expenses");
+  container.innerHTML = "";
+
+  data.expenses.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.textContent = `${e.amount} - ${e.description} (${new Date(e.date).toLocaleString()})`;
+    container.appendChild(div);
+  });
+}
+
+async function addExpense() {
+  const amount = document.getElementById("amount").value;
+  const description = document.getElementById("description").value;
+
+  await fetch("/api/expenses", {
+    method: "POST",
+    body: JSON.stringify({ amount, description })
+  });
+
+  loadExpenses();
+}
+
+loadExpenses();
+</script>
+
+</body>
+</html>
